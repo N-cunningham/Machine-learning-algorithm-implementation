@@ -4,7 +4,7 @@ Implementation and evaluation of a to be determined machine learning algorithm
 The goal here is to select, implement and evaluate a machine learning algorithm, except for k-Nearest Neighbours, Naïve Bayes, or rather trivial ones such as ZeroR or 1R.
 
 Algorithms you could consider:
-C4.5; 
+C4.5; split into basic implementation and then purning 
 CART; 
 Tree Augmented Naïve Bayes; 
 Logistic Regression; 
