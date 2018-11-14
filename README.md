@@ -17,7 +17,8 @@ ToDo:
 ----------------------------------------
 Implementation
 ----------------------------------------
-Choose programming/scripting language;
+DONE - Choose programming/scripting language; JAVA
+Choose algorithm
 Make design decisions and document them;
 Make program able to handle different numbers of attributes and training cases.;
 For testing data, be able to output predicted and actual values to a file;
