@@ -1,30 +1,32 @@
 package C45;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		ArrayList<String> cata = new ArrayList<String>();//correspondingness of the values are implicit in order written, BE CAREFUL!!!
+		ArrayList<String> cata = new ArrayList<String>();// correspondingness of
+															// the values are
+															// implicit in order
+															// written, BE
+															// CAREFUL!!!
 		cata.add("red");
 		cata.add("red");
-		cata.add("red");	
+		cata.add("red");		
 		cata.add("red");
 		cata.add("blue");
+		cata.add("blue");				
 		cata.add("blue");
 		cata.add("blue");
 		cata.add("blue");
-		cata.add("blue");
 		cata.add("green");
 		cata.add("green");
 		cata.add("green");
 		cata.add("green");
 		cata.add("green");
-		cata.add("gray");
-		cata.add("gray");
-		cata.add("gray");
 
 		ArrayList<Integer> nums = new ArrayList<Integer>();
 		nums.add(0);
@@ -32,7 +34,7 @@ public class Main {
 		nums.add(15);		
 		nums.add(22);
 		nums.add(30);
-		nums.add(35);
+		nums.add(35);		
 		nums.add(50);
 		nums.add(55);
 		nums.add(55);
@@ -40,28 +42,86 @@ public class Main {
 		nums.add(76);
 		nums.add(86);
 		nums.add(90);
-		nums.add(100);			
-		nums.add(150);		
-		nums.add(155);
-		nums.add(160);
+		nums.add(100);
 
 		Node n = new Node(cata, nums);
 
 		// test(n);
-		ArrayList<String> cats = n.getUniqueCata();
-		
+		/*
+		 * ArrayList<String> cats = n.getUniqueCata();
+		 * 
+		 * 
+		 * for (int j = 0; j < cats.size(); j++) {
+		 * 
+		 * int lastMax = 0;
+		 * 
+		 * ArrayList<Integer> bounds = iterate(n, cats.get(j), lastMax,
+		 * n.getNums().size()); lastMax = bounds.get(1);
+		 * 
+		 * System.out.println(cats.get(j) + "\nLower Bound: " + bounds.get(0) +
+		 * "\nUpper Bound: " + bounds.get(1) + "\nPurity: " + bounds.get(2) +
+		 * "%\n");
+		 * 
+		 * }
+		 */
 
-		for (int j = 0; j < cats.size(); j++) {
+		partition(n);
 
-			int lastMax = 0;
-			
-			ArrayList<Integer> bounds = iterate(n, cats.get(j), lastMax, n.getNums().size());
-			lastMax = bounds.get(1);
+	}
 
-			System.out.println(cats.get(j) + "\nLower Bound: " + bounds.get(0) + "\nUpper Bound: " + bounds.get(1)
-					+ "\nPurity: " + bounds.get(2) + "%\n");
+	public static void partition(Node n) {
+
+		ArrayList<Integer> partitions = n.gatInitialPartitions();
+
+		//Collections.sort(n.getNums());
+
+		float purity = 0;
+		float datapoints = 0;
+		int partition = 0;
+		int x = 0;
+
+		for (int i = partitions.get(0); i < partitions.get(1); x++) {//loop this for all initial paritions
+
+			i++;
+
+			float localPurity = 0;
+			float localCorrect = 0;
+			float localDatapoints = 0;
+			String prev = n.getCata().get(0);
+
+			for (int j = partitions.get(0); j < i; j++) {
+
+				if (n.getCata().get(j) == prev) {
+
+					localCorrect++;
+
+				}
+
+				prev = n.getCata().get(j);
+
+				localDatapoints++;
+
+			}
+
+			localPurity = localCorrect / localDatapoints;
+
+			if (localPurity > purity) {
+
+				purity = localPurity;
+				partition = i;
+				datapoints = localDatapoints;
+
+			} else if (localPurity == purity && datapoints < localDatapoints) {
+
+				purity = localPurity;
+				partition = i;
+				datapoints = localDatapoints;
+
+			}
 
 		}
+
+		System.out.println("\nSTATS\npurity: " + purity * 100 + " \ndatapoints: " + datapoints + "\npartition: " + n.getNums().get(partition));
 
 	}
 
@@ -180,10 +240,9 @@ public class Main {
 				bestSize = max - min;
 
 			}
-			
+
 			while (max > min) {
 
-			
 				float Innerpurity = 0;
 				float Innercorrect = 0;
 				float Innerincorrect = 0;
@@ -219,15 +278,14 @@ public class Main {
 				min++;
 
 			}
-			
-			min = min2; 
+
+			min = min2;
 			max--;
 
 		}
-					
-		
+
 		results.add(nums.get(bestLow));
-		results.add(nums.get(bestHigh-1));
+		results.add(nums.get(bestHigh - 1));
 		results.add((int) (bestPurity * 100));
 
 		return results;
