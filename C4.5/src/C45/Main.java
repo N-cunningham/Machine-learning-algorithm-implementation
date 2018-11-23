@@ -66,7 +66,7 @@ public class Main {
 		midpoints.add(0);
 		midpoints.add(3);
 		midpoints.add(7);
-		midpoints.add(14);
+		midpoints.add(12);
 		
 		ArrayList<Double> scores = getEntropy(n, midpoints);
 		
@@ -85,7 +85,7 @@ public class Main {
 		ArrayList<Double> midpointsEntropy = new ArrayList<Double>();
 		
 		
-		for(int j = 1; j < midpoints.size() - 1; j++){
+		for(int j = 1; j < midpoints.size(); j++){
 			
 			double correct = 0;
 			double totalDataPoints = 0;
