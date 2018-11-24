@@ -41,32 +41,18 @@ public class Main {
 		nums.add(100);
 
 		Node n = new Node(cata, nums);
+		
+		runTestAttribute(n);
 
-		// test(n);
-		/*
-		 * ArrayList<String> cats = n.getUniqueCata();
-		 * 
-		 * 
-		 * for (int j = 0; j < cats.size(); j++) {
-		 * 
-		 * int lastMax = 0;
-		 * 
-		 * ArrayList<Integer> bounds = iterate(n, cats.get(j), lastMax,
-		 * n.getNums().size()); lastMax = bounds.get(1);
-		 * 
-		 * System.out.println(cats.get(j) + "\nLower Bound: " + bounds.get(0) +
-		 * "\nUpper Bound: " + bounds.get(1) + "\nPurity: " + bounds.get(2) +
-		 * "%\n");
-		 * 
-		 * }
-		 */
-
+	}
+	
+	public static void runTestAttribute(Node n){
+		
 		int numberOfUniqueCata = n.getNumberOfCata();
 		int	numberOfDatapionts = n.getNums().size();
 		
 		System.out.println(numberOfUniqueCata + " Catagories detected");
 		System.out.println(numberOfDatapionts + " Data records detected");
-		
 		
 		ArrayList<Integer> midpoints = new ArrayList<Integer>();
 		
@@ -105,7 +91,8 @@ public class Main {
 		
 		Double InformationGain = getInformationGain(entropyScores, midpoints, numberOfDatapionts);
 		System.out.println("\nInformationGain: " + InformationGain);
-
+		
+		
 	}
 	
 	public static Double getInformationGain(ArrayList<Double> entropyScores, ArrayList<Integer> midpoints, int numberOfTotalDatapionts){		
