@@ -91,19 +91,46 @@ public class Main {
 		
 		System.out.println("");
 		
-		ArrayList<Double> scores = getEntropy(n, midpoints);
+		ArrayList<Double> entropyScores = getEntropy(n, midpoints);//Where the magic happens
 		
 		System.out.println("\n--------\nReturns\n--------");
-		for(int i = 0; i < scores.size(); i++){
+		for(int i = 0; i < entropyScores.size(); i++){
 			
-			System.out.println("Entropy "+ i + ": " + scores.get(i));
+			System.out.println("Entropy "+ i + ": " + entropyScores.get(i));
 			
 			
 		}
 		
 		System.out.println("\n");
+		
+		Double InformationGain = getInformationGain(entropyScores, midpoints, numberOfDatapionts);
+		System.out.println("\nInformationGain: " + InformationGain);
 
 	}
+	
+	public static Double getInformationGain(ArrayList<Double> entropyScores, ArrayList<Integer> midpoints, int numberOfTotalDatapionts){		
+		
+		Double InformationGain = 0.0;
+		Double entropyOfS = 0.0; //TODO define this value
+		
+		for(int i = 0; i < entropyScores.size(); i++){
+			
+			int numberOfElements = (midpoints.get(i + 1) - midpoints.get(i)) ;
+						
+			InformationGain = InformationGain - (( (double) numberOfElements / (double) numberOfTotalDatapionts) * entropyScores.get(i));
+			
+			System.out.println(InformationGain);
+			
+		}
+		
+		InformationGain = entropyOfS + InformationGain;//negative created in for loop, so positive here  
+		
+		return InformationGain;
+		
+	}
+	
+	
+	
 	
 	public static ArrayList<Double> getEntropy(Node n, ArrayList<Integer> midpoints){
 		
@@ -130,7 +157,7 @@ public class Main {
 			
 			System.out.println("Catagorising "+ cata + "\n------------------");
 			 
-			for(int i = midpoints.get(j); i >= midpoints.get(j - 1); i--){
+			for(int i = midpoints.get(j); i > midpoints.get(j - 1); i--){
 				
 				
 				if(n.getCata().get(i) == cata){
