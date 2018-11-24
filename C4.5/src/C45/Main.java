@@ -21,8 +21,9 @@ public class Main {
 		cata.add("red");
 		cata.add("blue");
 		cata.add("blue");
-		cata.add("blue");
 		cata.add("green");
+		cata.add("blue");
+		
 		cata.add("green");
 		cata.add("green");
 		cata.add("green");
@@ -197,9 +198,18 @@ public class Main {
 			catagorisesDone.add(cata);
 
 			System.out.println("Catagorising " + cata + "\n------------------");
-
-			for (int i = midpoints.get(j); i > midpoints.get(j - 1); i--) {
-
+			
+			int lowerbound = midpoints.get(j - 1);
+			
+			if(j == 1){
+				
+				lowerbound--;
+				
+			}
+			
+			for (int i = midpoints.get(j); i > lowerbound; i--) {
+				
+				
 				if (n.getCata().get(i) == cata) {
 
 					correct++;
