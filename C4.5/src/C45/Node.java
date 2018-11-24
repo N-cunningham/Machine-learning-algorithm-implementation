@@ -34,8 +34,8 @@ public class Node {
 		this.nums = nums;
 	}
 
-	public int getNumberOfCata() {	
-		
+	public int getNumberOfCata() {
+
 		int numberOfCata = this.getUniqueCata().size();
 		return numberOfCata;
 
@@ -57,35 +57,6 @@ public class Node {
 		}
 
 		return cats;
-
-	}
-	
-	public ArrayList<Integer> gatInitialPartitions() {
-
-		int numberOfPartitions = this.getNumberOfCata() - 1;
-
-		// System.out.println(numberOfPartitions);
-		ArrayList<Integer> partitions = new ArrayList<>();
-
-		int i = this.nums.size();
-
-		while (i >= 0) {
-
-			partitions.add( this.nums.size() - i);
-
-			i = i - ( this.nums.size() / numberOfPartitions);
-
-		}
-
-		System.out.println("Fetching Inital Partitions...");
-		for (int j = 0; j < partitions.size(); j++) {
-
-			System.out.println( partitions.get(j));
-
-		}
-		System.out.println("Done");
-		
-		return partitions;
 
 	}
 
