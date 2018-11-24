@@ -73,7 +73,7 @@ public class Main {
 		int newMidpoint = 0;
 		int increase = (numberOfDatapionts / numberOfUniqueCata);
 		
-		for(int c = 0; c < numberOfUniqueCata + 1; c++){			
+		for(int c = 0; c < numberOfUniqueCata + 1; c++){	//TODO do this for for all possible permutations and return best information gain		
 			
 			newMidpoint = increase * c;
 			midpoints.add(newMidpoint);
