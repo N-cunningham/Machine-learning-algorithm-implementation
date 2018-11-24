@@ -42,11 +42,11 @@ public class Main {
 
 		Node n = new Node(cata, nums);
 		
-		runTestAttribute(n);
+		runTestOnAttribute(n);
 
 	}
 	
-	public static void runTestAttribute(Node n){
+	public static void runTestOnAttribute(Node n){
 		
 		int numberOfUniqueCata = n.getNumberOfCata();
 		int	numberOfDatapionts = n.getNums().size();
