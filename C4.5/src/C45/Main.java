@@ -61,21 +61,47 @@ public class Main {
 		 * }
 		 */
 
+		int numberOfUniqueCata = n.getNumberOfCata();
+		int	numberOfDatapionts = n.getNums().size();
+		
+		System.out.println(numberOfUniqueCata + " Catagories detected");
+		System.out.println(numberOfDatapionts + " Data records detected");
+		
 		
 		ArrayList<Integer> midpoints = new ArrayList<Integer>();
-		midpoints.add(0);
-		midpoints.add(3);
-		midpoints.add(7);
-		midpoints.add(12);
 		
-		ArrayList<Double> scores = getEntropy(n, midpoints);
+		int newMidpoint = 0;
+		int increase = (numberOfDatapionts / numberOfUniqueCata);
 		
-		for(int i = 0; i < scores.size(); i++){
+		for(int c = 0; c < numberOfUniqueCata + 1; c++){			
 			
-			System.out.println("\nScore " + scores.get(i));
+			newMidpoint = increase * c;
+			midpoints.add(newMidpoint);
 			
 			
 		}
+	
+		System.out.println("\nMidpoints");
+		for(int i = 0; i < midpoints.size(); i++){
+			
+			System.out.println(midpoints.get(i));
+			
+			
+		}
+		
+		System.out.println("");
+		
+		ArrayList<Double> scores = getEntropy(n, midpoints);
+		
+		System.out.println("\n--------\nReturns\n--------");
+		for(int i = 0; i < scores.size(); i++){
+			
+			System.out.println("Entropy "+ i + ": " + scores.get(i));
+			
+			
+		}
+		
+		System.out.println("\n");
 
 	}
 	
@@ -84,15 +110,26 @@ public class Main {
 		//int totalDataPoints = n.getNums().size();
 		ArrayList<Double> midpointsEntropy = new ArrayList<Double>();
 		
+		ArrayList<String> catagorisesDone = new ArrayList<String>();
 		
 		for(int j = 1; j < midpoints.size(); j++){
 			
 			double correct = 0;
 			double totalDataPoints = 0;
-			double entropy = 0;
+			double entropy = 0;			
 			
 			String cata = n.getCata().get(midpoints.get(j - 1));
 			
+			if(catagorisesDone.contains(cata)){//TODO THis only works once, must account for case where next element is also already catagorised
+												
+				cata = n.getCata().get((midpoints.get(j - 1)) + 1);
+								
+			}
+						
+			catagorisesDone.add(cata);
+			
+			System.out.println("Catagorising "+ cata + "\n------------------");
+			 
 			for(int i = midpoints.get(j); i >= midpoints.get(j - 1); i--){
 				
 				
@@ -103,7 +140,7 @@ public class Main {
 					
 				}
 				
-				System.out.println(n.getCata().get(i) + " at " + i);
+				System.out.println(n.getCata().get(i) + " at index " + i);
 				
 				//prev = n.getCata().get(i);
 				totalDataPoints++;
@@ -122,12 +159,12 @@ public class Main {
 			
 			}
 			
-			System.out.println(correct + " Correct");
-			System.out.println(inncorrect + " Inncorrect");
+			System.out.println("Number correct: " + correct);
+			System.out.println("Number inncorrect: " + inncorrect);
 			
 			 
 			
-			System.out.println(entropy + "\n");
+			System.out.println("Entropy: " + entropy  + "\n");
 			
 			midpointsEntropy.add(entropy);
 		}
