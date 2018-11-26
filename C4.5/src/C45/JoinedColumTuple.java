@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class JoinedColumTuple {
 	
 	private String target;
-	private int attribute;
+	private double attribute;
 
-	public JoinedColumTuple(String target, int attribute) {
+	public JoinedColumTuple(String target, double attribute) {
 
 		this.target = target;
 		this.attribute = attribute;
@@ -22,7 +22,7 @@ public class JoinedColumTuple {
 		this.target = target;
 	}
 
-	public int getAttribute() {
+	public double getAttribute() {
 		return attribute;
 	}
 
