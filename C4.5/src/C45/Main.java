@@ -17,14 +17,14 @@ public class Main {
 															// CAREFUL!!!
 		cata.add("red");
 		cata.add("red");
-		cata.add("red");		
+		cata.add("red");
 		cata.add("red");
 		cata.add("blue");
 		cata.add("blue");
 		cata.add("blue");
 		cata.add("blue");
 		cata.add("green");
-		cata.add("green");				
+		cata.add("green");
 		cata.add("green");
 		cata.add("green");
 		cata.add("green");
@@ -51,7 +51,7 @@ public class Main {
 
 	}
 
-	public static void runTestOnAttribute(Node n) {
+	public static int[] runTestOnAttribute(Node n) {
 
 		int numberOfUniqueCata = n.getNumberOfCata();
 		int numberOfDatapionts = n.getNums().size();
@@ -87,40 +87,47 @@ public class Main {
 		ArrayList<int[]> allThresholds = getThresholds(n);
 		ArrayList<Double> allThresholdsScores = new ArrayList<Double>();
 
-		/*for (int i = 0; i < allThresholds.size(); i++) {
-
-			int[] thresholds = allThresholds.get(i);
-			ArrayList<Integer> thresholdsAsList = new ArrayList<Integer>();
-
-			for (int p = 0; p < allThresholds.get(i).length; p++) {
-
-				thresholdsAsList.add(thresholds[p]);
-
-			}
-
-			double AttributeInformationGain = getAttributeInformationGain(n, numberOfDatapionts);
-
-			double InformationGain = getDivisionsInformationGain(thresholdsAsList, numberOfDatapionts, n,
-					AttributeInformationGain);
-
-			allThresholdsScores.add(InformationGain);
-
-			System.out.println("\nInformationGain: " + InformationGain);
-
-		}
-
-		double best = Collections.max(allThresholdsScores);
+		
+		 for (int i = 0; i < allThresholds.size(); i++) {
+		 
+			 int[] thresholds = allThresholds.get(i); ArrayList<Integer>
+			 thresholdsAsList = new ArrayList<Integer>();
+			 
+			 for (int p = 0; p < allThresholds.get(i).length; p++) {
+			 
+				 thresholdsAsList.add(thresholds[p]);
+			 
+			 }
+			 
+			 double AttributeInformationGain = getAttributeInformationGain(n,
+			 numberOfDatapionts);
+			 
+			 double InformationGain =
+			 getDivisionsInformationGain(thresholdsAsList, numberOfDatapionts, n,
+			 AttributeInformationGain);
+			 
+			 allThresholdsScores.add(InformationGain);
+			 
+			 System.out.println("\nInformationGain: " + InformationGain);
+		 
+		 }
+		 
+		double best = Collections.max(allThresholdsScores); 
 		int indexOfBest = allThresholdsScores.indexOf(best);
-
+		 
 		System.out.println("\n*************************************************************\nTHE WINNER  with a score of " + best + " is ");
-
+		
 		for (int k = 0; k <= n.getNumberOfCata(); k++) {
-
+		  
 			int[] Thresholds = allThresholds.get(indexOfBest);
-
-			System.out.print(Thresholds[k] + "\t");
-
-		}*/
+			  
+			 System.out.print(Thresholds[k] + "\t");
+		 
+		}
+		
+		Score s = new Score(allThresholds.get(indexOfBest), best);
+		
+		return allThresholds.get(indexOfBest);
 
 	}
 
@@ -135,24 +142,24 @@ public class Main {
 			int[] threshold = new int[numberOfCatagories + 1];
 
 			int res = j;
-			
-				for (int i = 1; i < numberOfCatagories + 1; i++) {
-					
-					if(res >= (numberOfDatapoints - numberOfCatagories - 2)){
-						
-						threshold[i] = numberOfDatapoints - 3; 
-						
-					}else{	
-						
-						res = res + i;
-						threshold[i] = res;
-						
-					}
-						
+
+			for (int i = 1; i < numberOfCatagories + 1; i++) {
+
+				if (res >= (numberOfDatapoints - numberOfCatagories - 2)) {
+
+					threshold[i] = numberOfDatapoints - 3;
+
+				} else {
+
+					res = res + i;
+					threshold[i] = res;
+
 				}
 
+			}
+
 			threshold[0] = 0;
-			threshold[numberOfCatagories] = numberOfDatapoints - 2;	
+			threshold[numberOfCatagories] = numberOfDatapoints - 2;
 			allThresholds.add(threshold);
 
 		}
@@ -253,16 +260,17 @@ public class Main {
 
 		ArrayList<String> catagorisesDone = new ArrayList<String>();
 
-		
-		System.out.print("\n#####################################################################################\nNEW RUN\n");
-		System.out.print("#####################################################################################\nThresholds: ");
-		for(int k = 0; k< midpoints.size(); k++){
-			
+		System.out.print(
+				"\n#####################################################################################\nNEW RUN\n");
+		System.out.print(
+				"#####################################################################################\nThresholds: ");
+		for (int k = 0; k < midpoints.size(); k++) {
+
 			System.out.print(midpoints.get(k) + " ");
-			
+
 		}
 		System.out.println(" ");
-		
+
 		for (int j = 1; j < midpoints.size(); j++) {
 
 			double correct = 0;
@@ -282,7 +290,7 @@ public class Main {
 
 			catagorisesDone.add(cata);
 
-			System.out.println("Catagorising " + cata + "\n------------------");		
+			System.out.println("Catagorising " + cata + "\n------------------");
 
 			int lowerbound = midpoints.get(j - 1);
 
@@ -312,12 +320,11 @@ public class Main {
 
 				entropy = 0;
 
-			}else if(correct  == (double) 0){
-				
+			} else if (correct == (double) 0) {
+
 				entropy = (double) 0 + ((-(inncorrect / totalDataPoints)) * Math.log(inncorrect / totalDataPoints));
-				
-			}
-			else {
+
+			} else {
 
 				entropy = ((-(correct / totalDataPoints)) * Math.log(correct / totalDataPoints))
 						+ ((-(inncorrect / totalDataPoints)) * Math.log(inncorrect / totalDataPoints));
