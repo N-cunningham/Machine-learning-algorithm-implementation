@@ -18,19 +18,35 @@ public class Main {
 		JoinedColums.add(jct1);
 		JoinedColumTuple jct2 = new JoinedColumTuple("red", 18.0);
 		JoinedColums.add(jct2);
-		JoinedColumTuple jct3 = new JoinedColumTuple("blue", 14.0);
+		JoinedColumTuple jct3 = new JoinedColumTuple("red", 14.0);
 		JoinedColums.add(jct3);
-		JoinedColumTuple jct4 = new JoinedColumTuple("blue", 6.0);
+		JoinedColumTuple jct4 = new JoinedColumTuple("blue", 10.0);
 		JoinedColums.add(jct4);
+		JoinedColumTuple jct12 = new JoinedColumTuple("gray", 20.0);
+		JoinedColums.add(jct12);
+		JoinedColumTuple jct13 = new JoinedColumTuple("gray", 22.0);
+		JoinedColums.add(jct13);
+		JoinedColumTuple jct14 = new JoinedColumTuple("gray", 21.0);
+		JoinedColums.add(jct14);
 		JoinedColumTuple jct5 = new JoinedColumTuple("blue", 9.0);
 		JoinedColums.add(jct5);
 		JoinedColumTuple jct6 = new JoinedColumTuple("green", 1.0);
 		JoinedColums.add(jct6);
-		JoinedColumTuple jct7 = new JoinedColumTuple("green", 3.0);
+		JoinedColumTuple jct7 = new JoinedColumTuple("blue", 8.9);
 		JoinedColums.add(jct7);
 		JoinedColumTuple jct8 = new JoinedColumTuple("green", 2.0);
 		JoinedColums.add(jct8);
-
+		JoinedColumTuple jct9 = new JoinedColumTuple("green", 1.4);
+		JoinedColums.add(jct9);
+		JoinedColumTuple jct10 = new JoinedColumTuple("blue", 9.5);
+		JoinedColums.add(jct10);
+		JoinedColumTuple jct11 = new JoinedColumTuple("green", 2.0);
+		JoinedColums.add(jct11);
+		JoinedColumTuple jct122 = new JoinedColumTuple("brown", 30.5);
+		JoinedColums.add(jct122);
+		JoinedColumTuple jct133 = new JoinedColumTuple("brown", 30.0);
+		JoinedColums.add(jct133);
+	
 		Node n = new Node(JoinedColums);
 
 		runTestOnAttribute(n);
@@ -71,7 +87,7 @@ public class Main {
 
 		System.out.println("\n");
 
-		ArrayList<int[]> allThresholds = getThresholds(n);
+		ArrayList<int[]> allThresholds = generateAllThresholds(n);
 		ArrayList<Double> allThresholdsScores = new ArrayList<Double>();
 
 		
@@ -113,48 +129,69 @@ public class Main {
 		}
 		
 		Score s = new Score(allThresholds.get(indexOfBest), best);
+		//Score s = new Score(allThresholds.get(0), 0);
 		
 		return s;
 
 	}
 
-	public static ArrayList<int[]> getThresholds(Node n) {
+	public static ArrayList<int[]> generateAllThresholds(Node n) {
 
 		int numberOfDatapoints = n.getNums().size();
 		int numberOfCatagories = n.getNumberOfCata();
 		ArrayList<int[]> allThresholds = new ArrayList<int[]>();
 
-		for (int j = 0; j < numberOfDatapoints; j++) {
-
-			int[] threshold = new int[numberOfCatagories + 1];
-
-			int res = j;
-
-			for (int i = 1; i < numberOfCatagories + 1; i++) {
-
-				if (res >= (numberOfDatapoints - numberOfCatagories - 2)) {
-
-					threshold[i] = numberOfDatapoints - 3;
-
-				} else {
-
-					res = res + i;
-					threshold[i] = res;
-
+		for (int p = 0; p < numberOfDatapoints; p++) {
+			for (int j = 0; j < numberOfDatapoints; j++) {
+	
+				int[] threshold = new int[numberOfCatagories + 1];
+	
+				int res = j;
+	
+				for (int i = 1; i < numberOfCatagories + 1; i++) {
+	
+					if (res >= (numberOfDatapoints - numberOfCatagories - 2)) {
+	
+						threshold[i] = numberOfDatapoints - 3;
+	
+					} else {
+	
+						res = res + i + p;
+						threshold[i] = res;
+	
+					}
+	
 				}
-
+	
+				threshold[0] = 0;
+				threshold[numberOfCatagories] = numberOfDatapoints - 1;
+				int numbersInOrder = 0;
+				
+				for (int x = 0; x < threshold.length - 1; x++) {					
+					
+					if(threshold[x + 1] > threshold[x] ){
+						
+						numbersInOrder++;
+						
+					}
+				}
+					
+				if(numbersInOrder == numberOfCatagories){
+					allThresholds.add(threshold);
+				}
+				
+				
+	
 			}
-
-			threshold[0] = 0;
-			threshold[numberOfCatagories] = numberOfDatapoints - 1;
-			allThresholds.add(threshold);
-
 		}
+		
 
 		for (int i = 0; i < allThresholds.size(); i++) {
 
 			int[] threshold = allThresholds.get(i);
-
+			
+					
+			
 			for (int p = 0; p < numberOfCatagories + 1; p++) {
 
 				System.out.print(threshold[p] + " ");
@@ -169,8 +206,7 @@ public class Main {
 
 	}
 
-	public static Double getDivisionsInformationGain(ArrayList<Integer> midpoints, int numberOfTotalDatapionts, Node n,
-			double AttributeInformationGain) {
+	public static Double getDivisionsInformationGain(ArrayList<Integer> midpoints, int numberOfTotalDatapionts, Node n, double AttributeInformationGain) {
 
 		Double InformationGain = 0.0;
 		Double entropyOfS = 0.0; // TODO define this value
