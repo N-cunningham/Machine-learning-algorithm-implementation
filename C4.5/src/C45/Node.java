@@ -1,18 +1,47 @@
 package C45;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Node {
 
 	private ArrayList<String> cata;
 	private ArrayList<Integer> nums;
+	private ArrayList<JoinedColumTuple> JoinedColums;
 
-	public Node(ArrayList<String> cata, ArrayList<Integer> nums) {
+	public Node(ArrayList<JoinedColumTuple> JoinedColums) {
 
-		this.cata = cata;
-		this.nums = nums;
+		ArrayList<String> cataLocal = new ArrayList<String>();
+		ArrayList<Integer> numsLocal = new ArrayList<Integer>();
+		
+		this.JoinedColums = JoinedColums;
+		getLists(JoinedColums);
+		
+		for(int i = 0; i < JoinedColums.size(); i++){
+						
+			numsLocal.add(JoinedColums.get(i).getAttribute());
+			cataLocal.add(JoinedColums.get(i).getTarget());
+			
+		}
+		
+		this.setCata(cataLocal);
+		this.setNums(numsLocal);
 
 	}
+
+
+	public void getLists(ArrayList<JoinedColumTuple> JoinedColums){
+		
+		Collections.sort(JoinedColums, new Comparator<JoinedColumTuple>() {
+	        @Override
+	        public int compare(JoinedColumTuple Tuple1, JoinedColumTuple Tuple2) {
+	            return Double.compare(Tuple1.getAttribute(), Tuple2.getAttribute());
+	        }
+	    });
+		
+	}
+	
 
 	public static void main(String[] args) {
 
@@ -39,6 +68,29 @@ public class Node {
 		int numberOfCata = this.getUniqueCata().size();
 		return numberOfCata;
 
+	}
+	
+	public void printData(){
+		
+		
+		System.out.println("\n\nSTART###########################\n\n");
+		
+		System.out.println("NUMS\n");
+		for(int i = 0; i < nums.size(); i++){
+			
+			System.out.print(nums.get(i) + " ");
+			
+			
+		}
+		
+		System.out.println("\ncaTA\n");
+		for(int j = 0; j < cata.size(); j++){
+			
+			System.out.print(cata.get(j) + " ");
+			
+			
+		}
+		
 	}
 
 	public ArrayList<String> getUniqueCata() {
