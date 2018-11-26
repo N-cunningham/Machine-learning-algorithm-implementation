@@ -146,7 +146,7 @@ public class Main {
 			}
 
 			threshold[0] = 0;
-			threshold[numberOfCatagories] = numberOfDatapoints - 2;
+			threshold[numberOfCatagories] = numberOfDatapoints - 1;
 			allThresholds.add(threshold);
 
 		}
