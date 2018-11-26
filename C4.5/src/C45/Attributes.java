@@ -7,9 +7,9 @@ public class Attributes {
 	static ArrayList<Score> scoreList = new ArrayList<Score>();
 	ArrayList<Double> scoreInfoGains = new ArrayList<Double>();
 	
-	static ArrayList<ArrayList> metaList = new ArrayList<ArrayList>();	
+	static ArrayList<ArrayList <JoinedColumTuple>> metaList = new ArrayList<ArrayList <JoinedColumTuple>>();	
 
-	ArrayList<String> target = new ArrayList<String>();
+	static ArrayList<String> target = new ArrayList<String>();
 	
 	static ArrayList<ArrayList<JoinedColumTuple>> JoinedColumTuplesList = new ArrayList<ArrayList<JoinedColumTuple>>();
 
@@ -29,7 +29,7 @@ public class Attributes {
 	}
 	
 	
-	private static void attribute(ArrayList<String> data, ArrayList<ArrayList> metaList, ArrayList<String> target, int columns, int targetColumn) {
+	private static void attribute(ArrayList<String> data, ArrayList<ArrayList <JoinedColumTuple>> metaList, ArrayList<String> target, int columns, int targetColumn) {
 	
 	for(int i=0;i<columns;i++) {
 		if(i==targetColumn){
@@ -68,12 +68,12 @@ public class Attributes {
 		return scoreList.indexOf(Collections.max(scoreInfoGains));		
 	}
 	
-	public void setTarget(ArrayList<String> target) {
-		this.target = target;
+	public static void setTarget(ArrayList<String> target) {
+		Attributes.target = target;
 	}
 
 
-	public static void setMetaList(ArrayList<ArrayList> metaList) {
+	public static void setMetaList(ArrayList<ArrayList<JoinedColumTuple>> metaList) {
 		Attributes.metaList = metaList;
 	}
 }

@@ -1,8 +1,7 @@
 package C45;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class ReadCSV {
 
@@ -28,6 +27,7 @@ public class ReadCSV {
 		}
 
 		BufferedReader br2 = new BufferedReader(new FileReader(csvFile));
+
 		double[][] data = new double[colsLength - 1][c];
 		String[] targetData = new String[c];
 
@@ -71,8 +71,34 @@ public class ReadCSV {
 			System.out.println(targetData[p]);
 
 		}
+
+
+		ArrayList<ArrayList<JoinedColumTuple>> metaList = new ArrayList<ArrayList<JoinedColumTuple>>();
+		ArrayList<String> targetList = new ArrayList<String>();
+
+
+		for(int i=0; i<targetData.length; i++) {
+			targetList.add(targetData[i]);
+				
+			for(int j=0; j<data.length;j++) {
+				ArrayList<JoinedColumTuple> jctArrayList = new ArrayList<JoinedColumTuple>();
+				
+				for(int k=0; k<data[j].length; k++) {
+					JoinedColumTuple jct = new JoinedColumTuple(targetData[i], data[j][k]);
+					jctArrayList.add(jct);
+
+				}
+				metaList.add(jctArrayList);
+			}
+		}
 		
-
-
+		
+		
+			
+			Node n = new Node(metaList.get(0));
+			Main.runTestOnAttribute(n);
+		
+		
+		
 	}
 }
