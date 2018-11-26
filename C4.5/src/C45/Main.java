@@ -12,23 +12,23 @@ public class Main {
 
 		ArrayList<JoinedColumTuple> JoinedColums = new ArrayList<JoinedColumTuple>();
 		
-		JoinedColumTuple jct0 = new JoinedColumTuple("red", 12);
+		JoinedColumTuple jct0 = new JoinedColumTuple("red", 12.0);
 		JoinedColums.add(jct0);
-		JoinedColumTuple jct1 = new JoinedColumTuple("red", 15);
+		JoinedColumTuple jct1 = new JoinedColumTuple("red", 15.0);
 		JoinedColums.add(jct1);
-		JoinedColumTuple jct2 = new JoinedColumTuple("red", 18);
+		JoinedColumTuple jct2 = new JoinedColumTuple("red", 18.0);
 		JoinedColums.add(jct2);
-		JoinedColumTuple jct3 = new JoinedColumTuple("blue", 14);
+		JoinedColumTuple jct3 = new JoinedColumTuple("blue", 14.0);
 		JoinedColums.add(jct3);
-		JoinedColumTuple jct4 = new JoinedColumTuple("blue", 6);
+		JoinedColumTuple jct4 = new JoinedColumTuple("blue", 6.0);
 		JoinedColums.add(jct4);
-		JoinedColumTuple jct5 = new JoinedColumTuple("blue", 9);
+		JoinedColumTuple jct5 = new JoinedColumTuple("blue", 9.0);
 		JoinedColums.add(jct5);
-		JoinedColumTuple jct6 = new JoinedColumTuple("green", 1);
+		JoinedColumTuple jct6 = new JoinedColumTuple("green", 1.0);
 		JoinedColums.add(jct6);
-		JoinedColumTuple jct7 = new JoinedColumTuple("green", 3);
+		JoinedColumTuple jct7 = new JoinedColumTuple("green", 3.0);
 		JoinedColums.add(jct7);
-		JoinedColumTuple jct8 = new JoinedColumTuple("green", 2);
+		JoinedColumTuple jct8 = new JoinedColumTuple("green", 2.0);
 		JoinedColums.add(jct8);
 
 		Node n = new Node(JoinedColums);
