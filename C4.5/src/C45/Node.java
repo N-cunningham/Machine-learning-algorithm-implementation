@@ -7,13 +7,13 @@ import java.util.Comparator;
 public class Node {
 
 	private ArrayList<String> cata;
-	private ArrayList<Integer> nums;
+	private ArrayList<Double> nums;
 	private ArrayList<JoinedColumTuple> JoinedColums;
 
 	public Node(ArrayList<JoinedColumTuple> JoinedColums) {
 
 		ArrayList<String> cataLocal = new ArrayList<String>();
-		ArrayList<Integer> numsLocal = new ArrayList<Integer>();
+		ArrayList<Double> numsLocal = new ArrayList<Double>();
 		
 		this.JoinedColums = JoinedColums;
 		getLists(JoinedColums);
@@ -55,11 +55,11 @@ public class Node {
 		this.cata = cata;
 	}
 
-	public ArrayList<Integer> getNums() {
+	public ArrayList<Double> getNums() {
 		return nums;
 	}
 
-	public void setNums(ArrayList<Integer> nums) {
+	public void setNums(ArrayList<Double> nums) {
 		this.nums = nums;
 	}
 
