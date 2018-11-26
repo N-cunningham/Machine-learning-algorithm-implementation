@@ -51,7 +51,7 @@ public class Main {
 
 	}
 
-	public static int[] runTestOnAttribute(Node n) {
+	public static Score runTestOnAttribute(Node n) {
 
 		int numberOfUniqueCata = n.getNumberOfCata();
 		int numberOfDatapionts = n.getNums().size();
@@ -127,7 +127,7 @@ public class Main {
 		
 		Score s = new Score(allThresholds.get(indexOfBest), best);
 		
-		return allThresholds.get(indexOfBest);
+		return s;
 
 	}
 
@@ -204,8 +204,7 @@ public class Main {
 
 			int numberOfElementsinDivision = (midpoints.get(i + 1) - midpoints.get(i));
 
-			InformationGain = InformationGain
-					- (((double) numberOfElementsinDivision / (double) numberOfTotalDatapionts) * entropyScores.get(i));
+			InformationGain = InformationGain - (((double) numberOfElementsinDivision / (double) numberOfTotalDatapionts) * entropyScores.get(i));
 
 			System.out.println(InformationGain);
 
