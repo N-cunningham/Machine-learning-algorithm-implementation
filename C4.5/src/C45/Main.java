@@ -10,44 +10,31 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		ArrayList<String> cata = new ArrayList<String>();// correspondingness of
-															// the values are
-															// implicit in order
-															// written
-															// CAREFUL!!!
-		cata.add("red");
-		cata.add("red");
-		cata.add("red");
-		cata.add("red");
-		cata.add("blue");
-		cata.add("blue");
-		cata.add("blue");
-		cata.add("blue");
-		cata.add("green");
-		cata.add("green");
-		cata.add("green");
-		cata.add("green");
-		cata.add("green");
+		ArrayList<JoinedColumTuple> JoinedColums = new ArrayList<JoinedColumTuple>();
+		
+		JoinedColumTuple jct0 = new JoinedColumTuple("red", 12);
+		JoinedColums.add(jct0);
+		JoinedColumTuple jct1 = new JoinedColumTuple("red", 15);
+		JoinedColums.add(jct1);
+		JoinedColumTuple jct2 = new JoinedColumTuple("red", 18);
+		JoinedColums.add(jct2);
+		JoinedColumTuple jct3 = new JoinedColumTuple("blue", 14);
+		JoinedColums.add(jct3);
+		JoinedColumTuple jct4 = new JoinedColumTuple("blue", 6);
+		JoinedColums.add(jct4);
+		JoinedColumTuple jct5 = new JoinedColumTuple("blue", 9);
+		JoinedColums.add(jct5);
+		JoinedColumTuple jct6 = new JoinedColumTuple("green", 1);
+		JoinedColums.add(jct6);
+		JoinedColumTuple jct7 = new JoinedColumTuple("green", 3);
+		JoinedColums.add(jct7);
+		JoinedColumTuple jct8 = new JoinedColumTuple("green", 2);
+		JoinedColums.add(jct8);
 
-		ArrayList<Integer> nums = new ArrayList<Integer>();
-		nums.add(0);
-		nums.add(10);
-		nums.add(15);
-		nums.add(22);
-		nums.add(30);
-		nums.add(35);
-		nums.add(50);
-		nums.add(55);
-		nums.add(55);
-		nums.add(60);
-		nums.add(76);
-		nums.add(86);
-		nums.add(90);
-		nums.add(100);
-
-		Node n = new Node(cata, nums);
+		Node n = new Node(JoinedColums);
 
 		runTestOnAttribute(n);
+		n.printData();
 
 	}
 
