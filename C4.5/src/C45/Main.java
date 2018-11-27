@@ -12,40 +12,31 @@ public class Main {
 
 		ArrayList<JoinedColumTuple> JoinedColums = new ArrayList<JoinedColumTuple>();
 		
-		JoinedColumTuple jct0 = new JoinedColumTuple("red", 12.0);
+		JoinedColumTuple jct0 = new JoinedColumTuple("red", 1.0);
 		JoinedColums.add(jct0);
-		JoinedColumTuple jct1 = new JoinedColumTuple("red", 15.0);
+		JoinedColumTuple jct1 = new JoinedColumTuple("red", 2.0);
 		JoinedColums.add(jct1);
-		JoinedColumTuple jct2 = new JoinedColumTuple("red", 18.0);
+		JoinedColumTuple jct2 = new JoinedColumTuple("red", 3.0);
 		JoinedColums.add(jct2);
-		JoinedColumTuple jct3 = new JoinedColumTuple("red", 14.0);
+		JoinedColumTuple jct3 = new JoinedColumTuple("red", 4.0);
 		JoinedColums.add(jct3);
 		JoinedColumTuple jct4 = new JoinedColumTuple("blue", 10.0);
-		JoinedColums.add(jct4);
-		JoinedColumTuple jct12 = new JoinedColumTuple("gray", 20.0);
-		JoinedColums.add(jct12);
-		JoinedColumTuple jct13 = new JoinedColumTuple("gray", 22.0);
-		JoinedColums.add(jct13);
-		JoinedColumTuple jct14 = new JoinedColumTuple("gray", 21.0);
-		JoinedColums.add(jct14);
-		JoinedColumTuple jct5 = new JoinedColumTuple("blue", 9.0);
+		JoinedColums.add(jct4);	
+		JoinedColumTuple jct5 = new JoinedColumTuple("blue", 19.0);
 		JoinedColums.add(jct5);
-		JoinedColumTuple jct6 = new JoinedColumTuple("green", 1.0);
-		JoinedColums.add(jct6);
-		JoinedColumTuple jct7 = new JoinedColumTuple("blue", 8.9);
+		JoinedColumTuple jct7 = new JoinedColumTuple("blue", 18.9);
 		JoinedColums.add(jct7);
-		JoinedColumTuple jct8 = new JoinedColumTuple("green", 2.0);
+		JoinedColumTuple jct6 = new JoinedColumTuple("green", 11.0);
+		JoinedColums.add(jct6);
+		JoinedColumTuple jct8 = new JoinedColumTuple("blue", 22.0);
 		JoinedColums.add(jct8);
-		JoinedColumTuple jct9 = new JoinedColumTuple("green", 1.4);
+		JoinedColumTuple jct9 = new JoinedColumTuple("green", 21.4);
 		JoinedColums.add(jct9);
-		JoinedColumTuple jct10 = new JoinedColumTuple("blue", 9.5);
+		JoinedColumTuple jct10 = new JoinedColumTuple("green", 29.5);
 		JoinedColums.add(jct10);
-		JoinedColumTuple jct11 = new JoinedColumTuple("green", 2.0);
+		JoinedColumTuple jct11 = new JoinedColumTuple("green", 22.0);
 		JoinedColums.add(jct11);
-		JoinedColumTuple jct122 = new JoinedColumTuple("brown", 30.5);
-		JoinedColums.add(jct122);
-		JoinedColumTuple jct133 = new JoinedColumTuple("brown", 30.0);
-		JoinedColums.add(jct133);
+		
 	
 		Node n = new Node(JoinedColums);
 
@@ -111,22 +102,22 @@ public class Main {
 			 
 			 allThresholdsScores.add(InformationGain);
 			 
-			 //System.out.println("\nInformationGain: " + InformationGain);
+			 System.out.println("\nInformationGain: " + InformationGain);
 		 
 		 }
 		 
 		double best = Collections.max(allThresholdsScores); 
 		int indexOfBest = allThresholdsScores.indexOf(best);
 		 
-		//System.out.println("\n*************************************************************\nTHE WINNER  with a score of " + best + " is ");
+		System.out.println("\n*************************************************************\nTHE WINNER  with a score of " + best + " is ");
 		
-		/*for (int k = 0; k <= n.getNumberOfCata(); k++) {
+		for (int k = 0; k <= n.getNumberOfCata(); k++) {
 		  
 			int[] Thresholds = allThresholds.get(indexOfBest);
 			  
 			 System.out.print(Thresholds[k] + "\t");
 		 
-		}*/
+		}
 		
 		Score s = new Score(allThresholds.get(indexOfBest), best);
 		//Score s = new Score(allThresholds.get(0), 0);
@@ -192,13 +183,13 @@ public class Main {
 			
 					
 			
-			/*for (int p = 0; p < numberOfCatagories + 1; p++) {
+			for (int p = 0; p < numberOfCatagories + 1; p++) {
 
 				System.out.print(threshold[p] + " ");
 
-			}*/
+			}
 
-			//System.out.println(" ");
+			System.out.println(" ");
 
 		}
 
@@ -215,13 +206,13 @@ public class Main {
 		// magic
 		// happens
 
-		/*System.out.println("--------\nReturns\n--------");
+		System.out.println("--------\nReturns\n--------");
 
 		for (int i = 0; i < entropyScores.size(); i++) {
 
 			System.out.println("Entropy " + i + ": " + entropyScores.get(i));
 
-		}*/
+		}
 
 		for (int i = 0; i < entropyScores.size(); i++) {
 
@@ -229,7 +220,7 @@ public class Main {
 
 			InformationGain = InformationGain - (((double) numberOfElementsinDivision / (double) numberOfTotalDatapionts) * entropyScores.get(i));
 
-			//System.out.println(InformationGain);
+			System.out.println(InformationGain);
 
 		}
 
@@ -277,12 +268,11 @@ public class Main {
 
 	public static ArrayList<Double> getEntropy(Node n, ArrayList<Integer> midpoints) {
 
-		// int totalDataPoints = n.getNums().size();
+		ArrayList<String> catagories = n.getUniqueCata();	
 		ArrayList<Double> midpointsEntropy = new ArrayList<Double>();
-
 		ArrayList<String> catagorisesDone = new ArrayList<String>();
 
-		/*System.out.print(
+		System.out.print(
 				"\n#####################################################################################\nNEW RUN\n");
 		System.out.print(
 				"#####################################################################################\nThresholds: ");
@@ -291,29 +281,24 @@ public class Main {
 			System.out.print(midpoints.get(k) + " ");
 
 		}
-		System.out.println(" ");*/
+		System.out.println(" ");
 
-		for (int j = 1; j < midpoints.size(); j++) {//Reright to count N number of cata differences and calculate entropy on that basis 
+		for (int j = 1; j < midpoints.size(); j++) {
 
 			double correct = 0;
+			int[] catagoriesScore = new int[n.getNumberOfCata()];
 			double totalDataPoints = 0;
 			double entropy = 0;
-
 			String cata = n.getCata().get(midpoints.get(j - 1));
 
-			if (catagorisesDone.contains(cata)) {// TODO THis only works once,
-													// must account for case
-													// where next element is
-													// also already catagorised
+			if (catagorisesDone.contains(cata)) {// TODO THis only works once, must account for case where next element isalso already catagorised
 
 				cata = n.getCata().get((midpoints.get(j - 1)) + 1);
 
 			}
 
 			catagorisesDone.add(cata);
-
 			//System.out.println("Catagorising " + cata + "\n------------------");
-
 			int lowerbound = midpoints.get(j - 1);
 
 			if (j == 1) {
@@ -324,39 +309,32 @@ public class Main {
 
 			for (int i = midpoints.get(j); i > lowerbound; i--) {
 
-				if (n.getCata().get(i) == cata) {
-
-					correct++;
-
+				for(int p = 0; p < catagories.size(); p ++){
+					
+					if (n.getCata().get(i) == catagories.get(p)) {
+	
+						catagoriesScore[p]++;
+	
+					}
+					
 				}
-
-				//System.out.println(n.getCata().get(i) + " at index " + i);
-
-				// prev = n.getCata().get(i);
+				
+				System.out.println(n.getCata().get(i) + " at index " + i);				
 				totalDataPoints++;
 			}
 
-			double inncorrect = totalDataPoints - correct;
-
-			if (inncorrect == (double) 0) {
-
-				entropy = 0;
-
-			} else if (correct == (double) 0) {
-
-				entropy = (double) 0 + ((-(inncorrect / totalDataPoints)) * Math.log(inncorrect / totalDataPoints));
-
-			} else {
-
-				entropy = ((-(correct / totalDataPoints)) * Math.log(correct / totalDataPoints))
-						+ ((-(inncorrect / totalDataPoints)) * Math.log(inncorrect / totalDataPoints));
-
+			entropy = 0;
+			
+			for(int k = 0; k < catagoriesScore.length; k++){
+				
+				
+				if(catagoriesScore[k] != 0){
+					entropy = entropy + ((-(((double)catagoriesScore[k]) / totalDataPoints)) * Math.log(((double)catagoriesScore[k]) / totalDataPoints));
+				}
+				
 			}
-
-			//System.out.println("Number correct: " + correct);
-			//System.out.println("Number inncorrect: " + inncorrect);
-
-			//System.out.println("Entropy: " + entropy + "\n");
+			
+			System.out.println("Entropy: " + entropy + "\n");
 
 			midpointsEntropy.add(entropy);
 		}
