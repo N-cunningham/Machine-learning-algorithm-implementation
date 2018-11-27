@@ -30,4 +30,9 @@ public class JoinedColumTuple {
 		this.attribute = attribute;
 	}
 
+	@Override
+	public String toString() {
+		return "JoinedColumTuple [target=" + target + ", attribute=" + attribute + "]";
+	}
+
 }

@@ -1,5 +1,7 @@
 package C45;
 
+import java.util.Arrays;
+
 public class Score {
 	
 	
@@ -27,6 +29,15 @@ public class Score {
 	public double getInformationGain() {
 		return informationGain;
 	}
+
+	@Override
+	public String toString() {
+	
+		return "Score [Thresholds=" + Arrays.toString(Thresholds) + ", informationGain=" + informationGain + "]";
+		
+	}
+
+
 
 	public void setInformationGain(double informationGain) {
 		this.informationGain = informationGain;

@@ -54,7 +54,7 @@ public class ReadCSV {
 		reader.close();
 		br.close();
 
-		for (int p = 0; p < data.length; p++) {
+		/*for (int p = 0; p < data.length; p++) {
 
 			for (int x = 0; x < data[p].length; x++) {
 
@@ -70,35 +70,60 @@ public class ReadCSV {
 
 			System.out.println(targetData[p]);
 
-		}
+		}*/
 
 
 		ArrayList<ArrayList<JoinedColumTuple>> metaList = new ArrayList<ArrayList<JoinedColumTuple>>();
 		ArrayList<String> targetList = new ArrayList<String>();
 
 
-		for(int i=0; i<targetData.length; i++) {
-			targetList.add(targetData[i]);
+	
 				
-			for(int j=0; j<data.length;j++) {
-				ArrayList<JoinedColumTuple> jctArrayList = new ArrayList<JoinedColumTuple>();
+		for(int j=0; j<colsLength - 1;j++) {
+			ArrayList<JoinedColumTuple> jctArrayList = new ArrayList<JoinedColumTuple>();
 				
-				for(int k=0; k<data[j].length; k++) {
-					JoinedColumTuple jct = new JoinedColumTuple(targetData[i], data[j][k]);
-					jctArrayList.add(jct);
+			for(int k=0; k<data[j].length; k++) {
+				JoinedColumTuple jct = new JoinedColumTuple(targetData[k], data[j][k]);
+				jctArrayList.add(jct);
 
-				}
-				metaList.add(jctArrayList);
+			}
+			metaList.add(jctArrayList);
+			
+		}
+	
+	
+		/*
+		for(int i=0; i<metaList.size();i++) {
+			for (int j =0; j<metaList.get(i).size();i++) {
+			System.out.println(metaList.get(i).get(j).toString());
 			}
 		}
+		*/
+		System.out.println(metaList.size());
+		ArrayList<Score> scores = new ArrayList<Score>();
 		
-		
-		
+			for(int i = 0 ; i < metaList.size(); i ++) {
+				
+				Node n = new Node(metaList.get(i));
+				scores.add(Main.runTestOnAttribute(n));
+				
+			}
 			
-			Node n = new Node(metaList.get(0));
-			Main.runTestOnAttribute(n);
+			for(int i = 0 ; i < scores.size(); i ++) {
+				
+				
+				System.out.println(scores.get(i));
+				
+			}
+			
 		
-		
-		
+	/*
+			for(int i=0; i<n.getCata().size(); i++) {
+			System.out.print(n.getCata().get(i));
+			System.out.print("\t" + n.getNums().get(i) + "\n");
+			System.out.println(metaList.get(1).get(i).toString());
+			System.out.print("\n");
+		}		
+		*/
 	}
 }

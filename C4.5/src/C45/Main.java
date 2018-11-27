@@ -111,22 +111,22 @@ public class Main {
 			 
 			 allThresholdsScores.add(InformationGain);
 			 
-			 System.out.println("\nInformationGain: " + InformationGain);
+			 //System.out.println("\nInformationGain: " + InformationGain);
 		 
 		 }
 		 
 		double best = Collections.max(allThresholdsScores); 
 		int indexOfBest = allThresholdsScores.indexOf(best);
 		 
-		System.out.println("\n*************************************************************\nTHE WINNER  with a score of " + best + " is ");
+		//System.out.println("\n*************************************************************\nTHE WINNER  with a score of " + best + " is ");
 		
-		for (int k = 0; k <= n.getNumberOfCata(); k++) {
+		/*for (int k = 0; k <= n.getNumberOfCata(); k++) {
 		  
 			int[] Thresholds = allThresholds.get(indexOfBest);
 			  
 			 System.out.print(Thresholds[k] + "\t");
 		 
-		}
+		}*/
 		
 		Score s = new Score(allThresholds.get(indexOfBest), best);
 		//Score s = new Score(allThresholds.get(0), 0);
@@ -192,13 +192,13 @@ public class Main {
 			
 					
 			
-			for (int p = 0; p < numberOfCatagories + 1; p++) {
+			/*for (int p = 0; p < numberOfCatagories + 1; p++) {
 
 				System.out.print(threshold[p] + " ");
 
-			}
+			}*/
 
-			System.out.println(" ");
+			//System.out.println(" ");
 
 		}
 
@@ -215,13 +215,13 @@ public class Main {
 		// magic
 		// happens
 
-		System.out.println("--------\nReturns\n--------");
+		/*System.out.println("--------\nReturns\n--------");
 
 		for (int i = 0; i < entropyScores.size(); i++) {
 
 			System.out.println("Entropy " + i + ": " + entropyScores.get(i));
 
-		}
+		}*/
 
 		for (int i = 0; i < entropyScores.size(); i++) {
 
@@ -229,7 +229,7 @@ public class Main {
 
 			InformationGain = InformationGain - (((double) numberOfElementsinDivision / (double) numberOfTotalDatapionts) * entropyScores.get(i));
 
-			System.out.println(InformationGain);
+			//System.out.println(InformationGain);
 
 		}
 
@@ -282,7 +282,7 @@ public class Main {
 
 		ArrayList<String> catagorisesDone = new ArrayList<String>();
 
-		System.out.print(
+		/*System.out.print(
 				"\n#####################################################################################\nNEW RUN\n");
 		System.out.print(
 				"#####################################################################################\nThresholds: ");
@@ -291,9 +291,9 @@ public class Main {
 			System.out.print(midpoints.get(k) + " ");
 
 		}
-		System.out.println(" ");
+		System.out.println(" ");*/
 
-		for (int j = 1; j < midpoints.size(); j++) {
+		for (int j = 1; j < midpoints.size(); j++) {//Reright to count N number of cata differences and calculate entropy on that basis 
 
 			double correct = 0;
 			double totalDataPoints = 0;
@@ -312,7 +312,7 @@ public class Main {
 
 			catagorisesDone.add(cata);
 
-			System.out.println("Catagorising " + cata + "\n------------------");
+			//System.out.println("Catagorising " + cata + "\n------------------");
 
 			int lowerbound = midpoints.get(j - 1);
 
@@ -330,7 +330,7 @@ public class Main {
 
 				}
 
-				System.out.println(n.getCata().get(i) + " at index " + i);
+				//System.out.println(n.getCata().get(i) + " at index " + i);
 
 				// prev = n.getCata().get(i);
 				totalDataPoints++;
@@ -353,10 +353,10 @@ public class Main {
 
 			}
 
-			System.out.println("Number correct: " + correct);
-			System.out.println("Number inncorrect: " + inncorrect);
+			//System.out.println("Number correct: " + correct);
+			//System.out.println("Number inncorrect: " + inncorrect);
 
-			System.out.println("Entropy: " + entropy + "\n");
+			//System.out.println("Entropy: " + entropy + "\n");
 
 			midpointsEntropy.add(entropy);
 		}

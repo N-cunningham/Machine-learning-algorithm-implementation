@@ -31,6 +31,8 @@ public class Node {
 	}
 
 
+
+
 	public void getLists(ArrayList<JoinedColumTuple> JoinedColums){
 		
 		Collections.sort(JoinedColums, new Comparator<JoinedColumTuple>() {
@@ -73,7 +75,7 @@ public class Node {
 	public void printData(){
 		
 		
-		System.out.println("\n\nSTART###########################\n\n");
+		/*System.out.println("\n\nSTART###########################\n\n");
 		
 		System.out.println("NUMS\n");
 		for(int i = 0; i < nums.size(); i++){
@@ -89,7 +91,7 @@ public class Node {
 			System.out.print(cata.get(j) + " ");
 			
 			
-		}
+		}*/
 		
 	}
 
