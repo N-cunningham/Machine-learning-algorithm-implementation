@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class Main {
 
-	private static final int thresholdAccuracy = 100000;
+	private static final int thresholdAccuracy = 100000;//sorry
 	static ArrayList<int[]> divisionSplits = new ArrayList<int[]>();
 
 	public static Score loadData(String filename) throws IOException {
@@ -35,10 +35,13 @@ public class Main {
 		System.out.println(cols1.length);
 
 		ArrayList<Score> scores = new ArrayList<Score>();
-
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		ArrayList<JoinedColumTuple> jctList = new ArrayList<JoinedColumTuple>();
+		
+		
 		for (int p = 0; p < numberOfCols - 1; p++) {
 
-			ArrayList<JoinedColumTuple> jctList = new ArrayList<JoinedColumTuple>();
+			jctList.removeAll(jctList);
 			BufferedReader br = new BufferedReader(new FileReader(csvFile));
 			String line = br.readLine();
 
@@ -52,7 +55,8 @@ public class Main {
 			}
 
 			Node n = new Node(jctList);
-			Score s = runTestOnAttribute(n);
+			nodes.add(n);
+			Score s = runTestOnAttribute(n, p);
 			scores.add(s);
 
 		}
@@ -71,11 +75,60 @@ public class Main {
 
 		}
 
+		
+		Score winner = scores.get(maxindex);
+		//System.out.println("Attribute " + maxindex + "wins" + winner.toString());
+		ArrayList<Node> nextNodes = splitData(winner.getThresholds(), nodes.get(maxindex), nodes);
+		
+		System.out.println(nextNodes.size());
+		
+		for(int p = 0; p < nextNodes.size(); p++){
+			
+			System.out.println(nextNodes.get(p).getJoinedColums().toString());
+			System.out.println("");
+			
+		}
+		
 		return scores.get(maxindex);
 
 	}
+	
+	
+	
+	public static ArrayList<Node> splitData(int[] midpoints, Node nodeToSplit, ArrayList<Node> nodes){
+		
+		ArrayList<Node> Metajct = new ArrayList<Node>();
+		
+	//	for(int k = 0; k < nodes.size(); k++){			
+			
+			for(int i = 0; i < midpoints.length -1; i++){
+			
+				ArrayList<JoinedColumTuple> jct = new ArrayList<JoinedColumTuple>();
+				
+				for(int p = 0; p < nodeToSplit.getUnsortedJoinedColums().size(); p++){
+				
+					int index = nodeToSplit.getJoinedColums().indexOf(nodeToSplit.getUnsortedJoinedColums().get(p));
+					
+					if(midpoints[i] < index && index < midpoints[i + 1]){
+						
+						jct.add(nodes.get(0).getUnsortedJoinedColums().get(p));
+						
+					}
+									
+				}
+				
+				Node n = new Node(jct);	
+				Metajct.add(n);
+							
+			}
+					
+		//}
+		
+		return Metajct;
+		
+	}
 
-	public static Score runTestOnAttribute(Node n) {
+	public static Score runTestOnAttribute(Node n, int attributeIndex) {
 
 		int numberOfUniqueCata = n.getNumberOfCata();
 		int numberOfDatapionts = n.getNums().size();
@@ -107,6 +160,7 @@ public class Main {
 		double best = Collections.max(allThresholdsScores);
 		int indexOfBest = allThresholdsScores.indexOf(best);
 
+		
 		for (int k = 0; k < divisionSplits.get(0).length; k++) {
 
 			double denominator = 0.0;
@@ -140,6 +194,8 @@ public class Main {
 				}
 
 			}
+			
+			
 
 			if (zeros == divisionSplits.get(k).length - 1
 					&& (divisionSplits.get((indexOfBest * numberOfUniqueCata) + k)[maxIndex]) == 0.0) {
@@ -155,7 +211,7 @@ public class Main {
 
 		}
 
-		Score s = new Score(allThresholds.get(indexOfBest), best);
+		Score s = new Score(allThresholds.get(indexOfBest), best, attributeIndex);
 		divisionSplits.removeAll(divisionSplits);
 		return s;
 
