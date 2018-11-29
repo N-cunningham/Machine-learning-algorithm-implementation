@@ -9,6 +9,9 @@ public class Node {
 	private ArrayList<String> cata;
 	private ArrayList<Double> nums;
 	private ArrayList<JoinedColumTuple> JoinedColums;
+	private ArrayList<JoinedColumTuple> unsortedJoinedColums;
+
+
 
 	public Node(ArrayList<JoinedColumTuple> JoinedColums) {
 
@@ -16,6 +19,7 @@ public class Node {
 		ArrayList<Double> numsLocal = new ArrayList<Double>();
 		
 		this.JoinedColums = JoinedColums;
+		this.unsortedJoinedColums = JoinedColums;
 		getLists(JoinedColums);
 		
 		for(int i = 0; i < JoinedColums.size(); i++){
@@ -29,8 +33,6 @@ public class Node {
 		this.setNums(numsLocal);
 
 	}
-
-
 
 
 	public void getLists(ArrayList<JoinedColumTuple> JoinedColums){
@@ -72,10 +74,30 @@ public class Node {
 
 	}
 	
+
+	public ArrayList<JoinedColumTuple> getJoinedColums() {
+		return JoinedColums;
+	}
+
+
+	public void setJoinedColums(ArrayList<JoinedColumTuple> joinedColums) {
+		JoinedColums = joinedColums;
+	}
+	
+
+	public ArrayList<JoinedColumTuple> getUnsortedJoinedColums() {
+		return unsortedJoinedColums;
+	}
+
+
+	public void setUnsortedJoinedColums(ArrayList<JoinedColumTuple> unsortedJoinedColums) {
+		this.unsortedJoinedColums = unsortedJoinedColums;
+	}
+	
 	public void printData(){
 		
 		
-		/*System.out.println("\n\nSTART###########################\n\n");
+		System.out.println("\n\nSTART###########################\n\n");
 		
 		System.out.println("NUMS\n");
 		for(int i = 0; i < nums.size(); i++){
@@ -91,7 +113,7 @@ public class Node {
 			System.out.print(cata.get(j) + " ");
 			
 			
-		}*/
+		}
 		
 	}
 
