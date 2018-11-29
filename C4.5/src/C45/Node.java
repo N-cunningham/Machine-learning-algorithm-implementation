@@ -10,14 +10,16 @@ public class Node {
 	private ArrayList<Double> nums;
 	private ArrayList<JoinedColumTuple> JoinedColums;
 	private ArrayList<JoinedColumTuple> unsortedJoinedColums;
+	private int attributeNumber;
 
 
 
-	public Node(ArrayList<JoinedColumTuple> JoinedColums) {
+	public Node(ArrayList<JoinedColumTuple> JoinedColums, int attributeNumber) {
 
 		ArrayList<String> cataLocal = new ArrayList<String>();
 		ArrayList<Double> numsLocal = new ArrayList<Double>();
 		
+		this.attributeNumber = attributeNumber;
 		this.JoinedColums = JoinedColums;
 		this.unsortedJoinedColums = JoinedColums;
 		getLists(JoinedColums);
@@ -32,6 +34,16 @@ public class Node {
 		this.setCata(cataLocal);
 		this.setNums(numsLocal);
 
+	}
+
+
+	public int getAttributeNumber() {
+		return attributeNumber;
+	}
+
+
+	public void setAttributeNumber(int attributeNumber) {
+		this.attributeNumber = attributeNumber;
 	}
 
 
@@ -136,4 +148,28 @@ public class Node {
 
 	}
 
+
+	public int getUniqueAttributesNumber() {
+		
+		ArrayList<Integer> attrs = new ArrayList<Integer>();
+			
+		for(int i = 0; i < JoinedColums.size(); i++){
+			
+			int att = this.JoinedColums.get(i).getAttributeNumber();
+			
+			if(! attrs.contains(att)){
+				
+				attrs.add(att);
+				
+			}
+			
+		}
+		
+		return attrs.size();
+		
+	}
+
 }
+
+
+
