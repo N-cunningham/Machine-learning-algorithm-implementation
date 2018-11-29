@@ -16,8 +16,9 @@ public class Main {
 
 	private static final int thresholdAccuracy = 100000;//sorry
 	static ArrayList<int[]> divisionSplits = new ArrayList<int[]>();
+	static ArrayList<Score> treeScores = new ArrayList<Score>();
 
-	public static Score loadData(String filename) throws IOException {
+	public static /*Score*/ void loadData(String filename) throws IOException {
 
 		String line2;
 		String test;
@@ -37,7 +38,7 @@ public class Main {
 		String cvsSplitBy1 = ",";
 		String[] cols1 = line2.split(cvsSplitBy1);
 		numberOfCols = cols1.length;
-		System.out.println(cols1.length);
+		//System.out.println(cols1.length);
 
 		ArrayList<Score> scores = new ArrayList<Score>();
 		ArrayList<Node> nodes = new ArrayList<Node>();
@@ -85,21 +86,43 @@ public class Main {
 
 		}
 
+		treeScores.add(scores.get(maxindex));
+		again(scores, maxindex, nodes);
+		//return scores.get(maxindex);
+
+	}
+	
+	public static void again (ArrayList<Score> scores, int maxindex, ArrayList<Node> nodes ){
 		
+		ArrayList<Score> localScores = new ArrayList<Score>();
 		Score winner = scores.get(maxindex);
-		//System.out.println("Attribute " + maxindex + "wins" + winner.toString());
 		ArrayList<Node> nextNodes = splitData(winner.getThresholds(), nodes.get(maxindex), nodes);
-		
-		System.out.println(nextNodes.size());
-		
+				
+		System.out.println(" ");
+				
 		for(int p = 0; p < nextNodes.size(); p++){
-			
-			System.out.println(nextNodes.get(p).getJoinedColums().toString());
-			
+					
+			Score s = runTestOnAttribute(nextNodes.get(p), p);
+			localScores.add(s);
+					
 		}
 		
-		return scores.get(maxindex);
+		double max = 0;
+		int Localmaxindex = 0;
 
+		for (int i = 0; i < localScores.size(); i++) {
+
+			if (max < localScores.get(i).getInformationGain()) {
+
+				max = localScores.get(i).getInformationGain();
+				Localmaxindex = i;
+
+			}
+
+		}
+		Score localWinner = scores.get(Localmaxindex);
+		treeScores.add(localWinner);
+		
 	}
 	
 	
