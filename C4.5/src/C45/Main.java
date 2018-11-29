@@ -20,14 +20,19 @@ public class Main {
 	public static Score loadData(String filename) throws IOException {
 
 		String line2;
+		String test;
 		String csvFile = filename;
 		Scanner reader = new Scanner(System.in);
 
 		System.out.println("What is your target column, starting at 0?: ");
 		int targetCol = reader.nextInt();
 		BufferedReader br2 = new BufferedReader(new FileReader(csvFile));
+		BufferedReader br3 = new BufferedReader(new FileReader(csvFile));
 		int numberOfCols = 0;
-
+		
+		/*System.out.println("What % of data do you want to use for training? (type in the form xx.x)");
+		double testTrainSpilt = reader.nextDouble();*/
+		
 		line2 = br2.readLine();
 		String cvsSplitBy1 = ",";
 		String[] cols1 = line2.split(cvsSplitBy1);
@@ -38,13 +43,18 @@ public class Main {
 		ArrayList<Node> nodes = new ArrayList<Node>();
 		ArrayList<JoinedColumTuple> jctList = new ArrayList<JoinedColumTuple>();
 		
+		int dataPoints = 0;
+		
+		while ((test = br3.readLine()) != null) {
+			dataPoints++;
+		}
 		
 		for (int p = 0; p < numberOfCols - 1; p++) {
 
 			jctList.removeAll(jctList);
 			BufferedReader br = new BufferedReader(new FileReader(csvFile));
 			String line = br.readLine();
-
+			
 			while ((line = br.readLine()) != null) {
 
 				String cvsSplitBy = ",";
@@ -53,7 +63,7 @@ public class Main {
 				jctList.add(jct);
 
 			}
-
+			
 			Node n = new Node(jctList);
 			nodes.add(n);
 			Score s = runTestOnAttribute(n, p);
@@ -85,7 +95,6 @@ public class Main {
 		for(int p = 0; p < nextNodes.size(); p++){
 			
 			System.out.println(nextNodes.get(p).getJoinedColums().toString());
-			System.out.println("");
 			
 		}
 		
@@ -211,8 +220,19 @@ public class Main {
 
 		}
 
-		Score s = new Score(allThresholds.get(indexOfBest), best, attributeIndex);
-		divisionSplits.removeAll(divisionSplits);
+		Score s = new Score(allThresholds.get(indexOfBest), best, attributeIndex, n);
+		divisionSplits.removeAll(divisionSplits);		
+		
+		System.out.println("\nSplitting Attribute " + attributeIndex + " with these values");
+		
+		for(int i = 0; i < allThresholds.get(indexOfBest).length; i++){
+			
+			System.out.print(n.getNums().get(allThresholds.get(indexOfBest)[i]) + "\t");
+			
+		}
+		
+		System.out.println(" ");
+		
 		return s;
 
 	}
