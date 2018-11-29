@@ -6,12 +6,27 @@ public class JoinedColumTuple {
 	
 	private String target;
 	private double attribute;
+	private int attributeNumber;
 
-	public JoinedColumTuple(String target, double attribute) {
+	public int getAttributeNumber() {
+		return attributeNumber;
+	}
+
+	public void setAttributeNumber(int attributeNumber) {
+		this.attributeNumber = attributeNumber;
+	}
+
+	public JoinedColumTuple(String target, double attribute, int attributeNumber) {
 
 		this.target = target;
 		this.attribute = attribute;
+		this.attributeNumber = attributeNumber;
 
+	}
+
+	@Override
+	public String toString() {
+		return "JoinedColumTuple [target=" + target + ", attribute=" + attribute + "]";
 	}
 
 	public String getTarget() {
@@ -28,11 +43,6 @@ public class JoinedColumTuple {
 
 	public void setAttribute(int attribute) {
 		this.attribute = attribute;
-	}
-
-	@Override
-	public String toString() {
-		return "JoinedColumTuple [target=" + target + ", attribute=" + attribute + "]";
 	}
 
 }
