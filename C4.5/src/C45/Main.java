@@ -14,12 +14,11 @@ import java.util.Scanner;
 
 public class Main {
 
-	private static final int thresholdAccuracy = 90000;//sorry
+	private static final int thresholdAccuracy = 100000;//sorry
 	static ArrayList<int[]> divisionSplits = new ArrayList<int[]>();
 	static ArrayList<Score> treeScores = new ArrayList<Score>();
-	static ArrayList<String> UniqueCata = new ArrayList<String>();
 
-	public static /*Score*/ void loadData(String filename) throws IOException {
+	public static /*Score*/ void getTrunck(String filename) throws IOException {
 
 		String line2;
 		String test;
@@ -61,14 +60,13 @@ public class Main {
 
 				String cvsSplitBy = ",";
 				String[] cols = line.split(cvsSplitBy);
-				JoinedColumTuple jct = new JoinedColumTuple((String) cols[targetCol], (double) Double.valueOf(cols[p]) , p);
+				JoinedColumTuple jct = new JoinedColumTuple((String) cols[targetCol], (double) Double.valueOf(cols[p]), p);
 				jctList.add(jct);
 
 			}
 			
-			Node n = new Node(jctList, p);
+			Node n = new Node(jctList,p);
 			nodes.add(n);
-			UniqueCata = n.getUniqueCata();
 			Score s = runTestOnAttribute(n, p);
 			scores.add(s);
 
@@ -88,113 +86,71 @@ public class Main {
 
 		}
 
-		treeScores.add(scores.get(maxindex));
-		
 		Score winner = scores.get(maxindex);
-		//System.out.println("Attribute " + maxindex + "wins" + winner.toString());
+		treeScores.add(winner);
 		ArrayList<Node> nextNodes = splitDataOnThresholds(winner.getThresholds(), nodes.get(maxindex), nodes);
-
-		System.out.println(nextNodes.size());
-
-		for(int p = 0; p < nextNodes.size(); p++){
-			
-			System.out.println(nextNodes.get(p).getJoinedColums().toString());
-			System.out.println("");
-			
-		}
-		
-		//again(nextNodes);
+		recurse(winner, maxindex, nextNodes);
 		//return scores.get(maxindex);
 
 	}
 	
-	
-	public static void again (ArrayList<Node> nodes ){//TODO SHOULD BE COMPAIRING ATTRIBUTE NUMBER NOT TARGET	
+	public static void recurse(Score winner, int maxindex, ArrayList<Node> nodes){
+				
+		ArrayList<Score> localScores = new ArrayList<Score>();		
 		
-		for (int p = 0; p < nodes.size(); p++) {
-			
-			//System.out.print("\n\n NEW PARENT\n \n");
+		int nodesFullyCorrect = 0;
+		int i = 0;
 		
-			ArrayList<Score> localScores = new ArrayList<Score>();
-			ArrayList<Node> localNodes = new ArrayList<Node>();
+		for( i = 0; i < nodes.size(); i++){
 			
-			Node nMixed = nodes.get(p);
-			ArrayList<String> catagoriesInNode = nMixed.getUniqueCata();
-			ArrayList<ArrayList<JoinedColumTuple>> jctMetaList = new ArrayList<ArrayList<JoinedColumTuple>>();
+			int catas = nodes.get(i).getNumberOfCata();				
 			
-						
-			for(int i = 0; i < catagoriesInNode.size(); i++){
-			
-				ArrayList<JoinedColumTuple> jctList = new ArrayList<JoinedColumTuple>();
+			if(catas == 0 || catas == 1){
 				
-				for(int j = 0; j < nMixed.getCata().size(); j ++){
-					
-					if(nMixed.getJoinedColums().get(j).equals(catagoriesInNode.get(i))){//##BUG HERER ### SHOULD BE COMPAIRING ATTRIBUTE NUMBER NOT TARGET
-						
-						jctList.add(nMixed.getJoinedColums().get(j));
-						//System.out.print(nMixed.getJoinedColums().get(j).toString() + "\t");
-						
-					}
-					
-				}
-				
-				//System.out.print("\n.\n");
-				
-				jctMetaList.add(jctList);
+				nodes.remove(i);
+				nodesFullyCorrect++;
 				
 			}
-		
-			
-	
-			double Localmax = 0;
-			int Localmaxindex = 0;
-			/*
-			for (int i = 0; i < scores.size(); i++) {
-	
-				if (max < scores.get(i).getInformationGain()) {
-	
-					max = scores.get(i).getInformationGain();
-					maxindex = i;
-	
-				}
-	
-			}
-	
-			treeScores.add(scores.get(maxindex));
-			
-			Score winner = scores.get(maxindex);
-			//ArrayList<Node> nextNodes = splitDataOnThresholds(winner.getThresholds(), nodes.get(maxindex), nodes);*/
-
-			
-			for(int i = 0; i < jctMetaList.size(); i++){
-				
-				Node n1 = new Node(jctMetaList.get(i), i);
-				localNodes.add(n1);
-				Score s = runTestOnAttribute(n1, i);
-				localScores.add(s);
-				
-			}
-		
-			
-			for (int i = 0; i < localScores.size(); i++) {
-				
-				if (Localmax < localScores.get(i).getInformationGain()) {
-	
-					Localmax = localScores.get(i).getInformationGain();
-					Localmaxindex = i;
-	
-				}
-	
-			}
-			
-			
-			treeScores.add(localScores.get(Localmaxindex));
 			
 		}
 		
+		if(nodesFullyCorrect == nodes.size()){//BASE CASE
+			
+			return;
+			
+		}else{//RECURSICE CASE
+		
+			ArrayList<Node> nextNodes = splitDataOnThresholds(winner.getThresholds(), nodes.get(maxindex), nodes);
+					
+			System.out.println(" ");
+					
+			for(int p = 0; p < nextNodes.size(); p++){
+						
+				Score s = runTestOnAttribute(nextNodes.get(p), nextNodes.get(p).getAttributeNumber());
+				localScores.add(s);
+						
+			}
+			
+			double max = 0;
+			int Localmaxindex = 0;
+	
+			for (int p = 0; i < localScores.size(); p++) {
+	
+				if (max < localScores.get(p).getInformationGain()) {
+	
+					max = localScores.get(p).getInformationGain();
+					Localmaxindex = p;
+	
+				}
+	
+			}
+			Score localWinner = localScores.get(Localmaxindex);
+			treeScores.add(localWinner);
+			
+			//recurse(localWinner, Localmaxindex, nodes);
+		}
+		
 	}
-	
-	
 	
 	
 	
@@ -202,29 +158,30 @@ public class Main {
 		
 		ArrayList<Node> Metajct = new ArrayList<Node>();
 		
-		for(int i = 0; i < midpoints.length-1; i++){
+		for(int k = 0; k < nodes.size(); k++){			
 			
-			ArrayList<JoinedColumTuple> jct = new ArrayList<JoinedColumTuple>();
+			for(int i = 0; i < midpoints.length -1; i++){
 			
-			for(int k = 0; k < nodes.size(); k++){							
-							
+				ArrayList<JoinedColumTuple> jct = new ArrayList<JoinedColumTuple>();
+				
 				for(int p = 0; p < nodeToSplit.getUnsortedJoinedColums().size(); p++){
 				
-					int index = nodeToSplit.getUnsortedJoinedColums().indexOf(nodeToSplit.getJoinedColums().get(p));
+					int index = nodeToSplit.getJoinedColums().indexOf(nodeToSplit.getUnsortedJoinedColums().get(p));
 					
-					if(midpoints[i] <= index && index <= midpoints[i + 1]){
+					if(midpoints[i] < index && index < midpoints[i + 1]){
 						
-						jct.add(nodes.get(k).getUnsortedJoinedColums().get(p));
+						jct.add(nodes.get(0).getUnsortedJoinedColums().get(p));
+						//System.out.print(nodes.get(0).getUnsortedJoinedColums().get(p) + "\t");
 						
 					}
 									
-				}	
-								
-			}	
-			
-			Node n = new Node(jct, 999);//999 denotes mixed columns
-			Metajct.add(n);
-		
+				}
+				//System.out.println("\nNEW NODE\n");
+				Node n = new Node(jct,999);	
+				Metajct.add(n);
+							
+			}
+					
 		}
 		
 		return Metajct;
@@ -315,9 +272,9 @@ public class Main {
 		}
 
 		Score s = new Score(allThresholds.get(indexOfBest), best, attributeIndex, n);
-		divisionSplits.removeAll(divisionSplits);		
+		//divisionSplits.removeAll(divisionSplits);		
 		
-		System.out.println("\nSplitting Attribute " + attributeIndex + " with these values");
+		System.out.println("\nDividing Attribute " + attributeIndex + " with these values");
 		
 		for(int i = 0; i < allThresholds.get(indexOfBest).length; i++){
 			
