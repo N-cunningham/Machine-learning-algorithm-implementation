@@ -18,32 +18,27 @@ public class Main {
 	static ArrayList<int[]> divisionSplits = new ArrayList<int[]>();
 	static ArrayList<Score> treeScores = new ArrayList<Score>();
 
-	public static /*Score*/ void getTrunck(String filename) throws IOException {
-
+	public Node[] getTrunck(String filename, int targetCol, double testPercentage) throws IOException {
+		
+		ArrayList<Score> scores = new ArrayList<Score>();
+		double max = 0;
+		int maxindex = 0;
 		String line2;
 		String test;
 		String csvFile = filename;
-		Scanner reader = new Scanner(System.in);
-
-		System.out.println("What is your target column, starting at 0?: ");
-		int targetCol = reader.nextInt();
+	
+	
 		BufferedReader br2 = new BufferedReader(new FileReader(csvFile));
 		BufferedReader br3 = new BufferedReader(new FileReader(csvFile));
 		int numberOfCols = 0;
-		
-		/*System.out.println("What % of data do you want to use for training? (type in the form xx.x)");
-		double testTrainSpilt = reader.nextDouble();*/
-		
 		line2 = br2.readLine();
 		String cvsSplitBy1 = ",";
 		String[] cols1 = line2.split(cvsSplitBy1);
-		numberOfCols = cols1.length;
-		//System.out.println(cols1.length);
-
-		ArrayList<Score> scores = new ArrayList<Score>();
-		ArrayList<Node> nodes = new ArrayList<Node>();
-		ArrayList<JoinedColumTuple> jctList = new ArrayList<JoinedColumTuple>();
+		numberOfCols = cols1.length;		
+		Node[] nodes = new Node[numberOfCols-1];
+		Node[] testNodes = new Node[numberOfCols-1];
 		
+				
 		int dataPoints = 0;
 		
 		while ((test = br3.readLine()) != null) {
@@ -52,7 +47,9 @@ public class Main {
 		
 		for (int p = 0; p < numberOfCols - 1; p++) {
 
-			jctList.removeAll(jctList);
+			ArrayList<JoinedColumTuple> jctList = new ArrayList<JoinedColumTuple>();
+			ArrayList<JoinedColumTuple> testJctList = new ArrayList<JoinedColumTuple>();
+			
 			BufferedReader br = new BufferedReader(new FileReader(csvFile));
 			String line = br.readLine();
 			
@@ -65,15 +62,29 @@ public class Main {
 
 			}
 			
+			for(int i = 0; i < ((dataPoints * (testPercentage/100))-1); i++){
+				
+				int index = ((int) ((dataPoints - i -1 ) * Math.random()));
+				//System.out.println(index);
+				
+				testJctList.add((jctList.get(index)));
+				jctList.remove((jctList.get(index)));
+				
+			}
+
+			
+			nodes[p] = new Node(jctList,p);
 			Node n = new Node(jctList,p);
-			nodes.add(n);
+			
+			
+			testNodes[p] = new Node(testJctList,p);
+			Node ntest = new Node(testJctList,p);
+			
+						
 			Score s = runTestOnAttribute(n, p);
 			scores.add(s);
 
 		}
-
-		double max = 0;
-		int maxindex = 0;
 
 		for (int i = 0; i < scores.size(); i++) {
 
@@ -88,15 +99,19 @@ public class Main {
 
 		Score winner = scores.get(maxindex);
 		treeScores.add(winner);
-		ArrayList<Node> nextNodes = splitDataOnThresholds(winner.getThresholds(), nodes.get(maxindex), nodes);
-		recurse(winner, maxindex, nextNodes);
-		//return scores.get(maxindex);
+		ArrayList<Node> nextNodes = splitDataOnThresholds(winner.getThresholds(), nodes[maxindex], nodes);
+		
+		/*recurse(winner, maxindex, nextNodes);*/
+		
+		
+		return testNodes;
 
 	}
 	
-	public static void recurse(Score winner, int maxindex, ArrayList<Node> nodes){
+	public void recurse(Score winner, int maxindex, ArrayList<Node> nodes){
 				
 		ArrayList<Score> localScores = new ArrayList<Score>();		
+		
 		
 		int nodesFullyCorrect = 0;
 		int i = 0;
@@ -114,13 +129,21 @@ public class Main {
 			
 		}
 		
+		Node[] nodesArr = new Node[nodes.size()];
+		
+		for(int j = 0 ; j < nodes.size(); j++){
+			
+			nodesArr[j] = nodes.get(j);
+			
+		}
+		
 		if(nodesFullyCorrect == nodes.size()){//BASE CASE
 			
 			return;
 			
 		}else{//RECURSICE CASE
 		
-			ArrayList<Node> nextNodes = splitDataOnThresholds(winner.getThresholds(), nodes.get(maxindex), nodes);
+			ArrayList<Node> nextNodes = splitDataOnThresholds(winner.getThresholds(), nodes.get(maxindex), nodesArr);
 					
 			System.out.println(" ");
 					
@@ -154,11 +177,11 @@ public class Main {
 	
 	
 	
-	public static ArrayList<Node> splitDataOnThresholds(int[] midpoints, Node nodeToSplit, ArrayList<Node> nodes){
+	public ArrayList<Node> splitDataOnThresholds(int[] midpoints, Node nodeToSplit, Node[] nodes){
 		
 		ArrayList<Node> Metajct = new ArrayList<Node>();
 		
-		for(int k = 0; k < nodes.size(); k++){			
+		for(int k = 0; k < nodes.length -1; k++){			
 			
 			for(int i = 0; i < midpoints.length -1; i++){
 			
@@ -170,7 +193,7 @@ public class Main {
 					
 					if(midpoints[i] < index && index < midpoints[i + 1]){
 						
-						jct.add(nodes.get(0).getUnsortedJoinedColums().get(p));
+						jct.add(nodes[0].getUnsortedJoinedColums().get(p));
 						//System.out.print(nodes.get(0).getUnsortedJoinedColums().get(p) + "\t");
 						
 					}
@@ -188,13 +211,13 @@ public class Main {
 		
 	}
 
-	public static Score runTestOnAttribute(Node n, int attributeIndex) {
+	public Score runTestOnAttribute(Node n, int attributeIndex) {
 
 		int numberOfUniqueCata = n.getNumberOfCata();
 		int numberOfDatapionts = n.getNums().size();
 		ArrayList<String> catagories = n.getUniqueCata();
 
-		ArrayList<int[]> allThresholds = generateAllThresholds(n);
+		ArrayList<int[]> allThresholds = generateThresholds(n);
 		ArrayList<Double> allThresholdsScores = new ArrayList<Double>();
 
 		for (int i = 0; i < allThresholds.size(); i++) {
@@ -255,7 +278,7 @@ public class Main {
 
 			}
 			
-			
+			//System.out.println(Arrays.toString(divisionSplits.get(maxIndex)));
 
 			if (zeros == divisionSplits.get(k).length - 1
 					&& (divisionSplits.get((indexOfBest * numberOfUniqueCata) + k)[maxIndex]) == 0.0) {
@@ -268,13 +291,14 @@ public class Main {
 						/ (denominator)));
 
 			}
+			
 
 		}
 
 		Score s = new Score(allThresholds.get(indexOfBest), best, attributeIndex, n);
 		//divisionSplits.removeAll(divisionSplits);		
 		
-		System.out.println("\nDividing Attribute " + attributeIndex + " with these values");
+		System.out.println("\nWith an information gain of " + allThresholdsScores.get(indexOfBest) +" the best Thresholds for attribute " + attributeIndex + " are");
 		
 		for(int i = 0; i < allThresholds.get(indexOfBest).length; i++){
 			
@@ -288,7 +312,7 @@ public class Main {
 
 	}
 
-	public static ArrayList<int[]> generateAllThresholds(Node n) {
+	public ArrayList<int[]> generateThresholds(Node n) {
 
 		int numberOfDatapoints = n.getNums().size();
 		int numberOfCatagories = n.getNumberOfCata();
@@ -329,7 +353,7 @@ public class Main {
 
 	}
 
-	public static Double getDivisionsInformationGain(ArrayList<Integer> midpoints, int numberOfTotalDatapionts, Node n,
+	public Double getDivisionsInformationGain(ArrayList<Integer> midpoints, int numberOfTotalDatapionts, Node n,
 			double AttributeInformationGain) {
 
 		Double InformationGain = 0.0;
@@ -351,7 +375,7 @@ public class Main {
 
 	}
 
-	public static Double getAttributeInformationGain(Node n, int numberOfTotalDatapionts) {
+	public Double getAttributeInformationGain(Node n, int numberOfTotalDatapionts) {
 
 		double InformationGain = 0.0;
 
@@ -380,7 +404,7 @@ public class Main {
 
 	}
 
-	public static ArrayList<Double> getEntropy(Node n, ArrayList<Integer> midpoints) {
+	public ArrayList<Double> getEntropy(Node n, ArrayList<Integer> midpoints) {
 
 		ArrayList<String> catagories = n.getUniqueCata();
 		ArrayList<Double> midpointsEntropy = new ArrayList<Double>();
