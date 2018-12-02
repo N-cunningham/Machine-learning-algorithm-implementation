@@ -59,9 +59,6 @@ public class Node {
 	}
 	
 
-	public static void main(String[] args) {
-
-	}
 
 	public ArrayList<String> getCata() {
 		return cata;
