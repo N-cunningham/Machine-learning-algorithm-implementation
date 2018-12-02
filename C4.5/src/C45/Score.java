@@ -18,11 +18,15 @@ public class Score {
 		this.attributeIndex = attributeIndex;
 		double[] LocalThresholdsValues = new double[Thresholds.length];
 		
-		for(int i = 0; i < Thresholds.length; i++){
+		//ocalThresholdsValues[0] = n.getNums().get(Thresholds[0]);
+		
+		for(int i = 1; i < Thresholds.length/*-2*/; i++){
 			
-			LocalThresholdsValues[i] = n.getNums().get(Thresholds[i]);
+			LocalThresholdsValues[i] = (n.getNums().get(Thresholds[i])); //+ (n.getNums().get(Thresholds[i] + 1))) / 2); // this gets midpoint between two
 			
 		}
+		
+		//LocalThresholdsValues[Thresholds.length-1] = n.getNums().get(Thresholds[Thresholds.length-1]);
 		
 		setThresholdsValues(LocalThresholdsValues);
 		
@@ -59,7 +63,19 @@ public class Score {
 
 	@Override
 	public String toString() {
-		return "\nSplit on attribute " + attributeIndex + ": Score [Threshold Values=" + Arrays.toString(ThresholdsValues) + ", informationGain=" + informationGain + "]";
+		return "\nBest split is on attribute " + attributeIndex + ": [Threshold Values=" + Arrays.toString(ThresholdsValues) + ", informationGain=" + informationGain + "]";
+	}
+
+
+
+	public int getAttributeIndex() {
+		return attributeIndex;
+	}
+
+
+
+	public void setAttributeIndex(int attributeIndex) {
+		this.attributeIndex = attributeIndex;
 	}
 
 
