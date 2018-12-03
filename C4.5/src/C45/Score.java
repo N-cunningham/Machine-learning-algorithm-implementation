@@ -18,11 +18,11 @@ public class Score {
 		this.attributeIndex = attributeIndex;
 		double[] LocalThresholdsValues = new double[Thresholds.length];
 		
-		//ocalThresholdsValues[0] = n.getNums().get(Thresholds[0]);
+	//	LocalThresholdsValues[0] = n.getNums().get(Thresholds[0]);
 		
-		for(int i = 1; i < Thresholds.length/*-2*/; i++){
+		for(int i = 1; i < Thresholds.length-2; i++){
 			
-			LocalThresholdsValues[i] = (n.getNums().get(Thresholds[i])); //+ (n.getNums().get(Thresholds[i] + 1))) / 2); // this gets midpoint between two
+			LocalThresholdsValues[i] = n.getNums().get(Thresholds[i]);// + (((n.getNums().get(Thresholds[i] - 1))) / 2)); // this gets midpoint between two
 			
 		}
 		
