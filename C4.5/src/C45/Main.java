@@ -45,6 +45,15 @@ public class Main {
 			dataPoints++;
 		}
 		
+		int[] indexToRemove = new int[(int) ((dataPoints * (testPercentage/100))-1)];
+		
+		for(int i = 0; i < ((dataPoints * (testPercentage/100))-1) - 1; i++){
+			
+			int index = ((int) ((dataPoints - i -1 ) * Math.random()));
+			indexToRemove[i] = index;
+			
+		}
+		
 		for (int p = 0; p < numberOfCols - 1; p++) {
 
 			ArrayList<JoinedColumTuple> jctList = new ArrayList<JoinedColumTuple>();
@@ -62,13 +71,10 @@ public class Main {
 
 			}
 			
-			for(int i = 0; i < ((dataPoints * (testPercentage/100))-1); i++){
+			for(int i = 0; i < indexToRemove.length-1; i++){
 				
-				int index = ((int) ((dataPoints - i -1 ) * Math.random()));
-				//System.out.println(index);
-				
-				testJctList.add((jctList.get(index)));
-				jctList.remove((jctList.get(index)));
+				testJctList.add((jctList.get(indexToRemove[i])));
+				jctList.remove((jctList.get(indexToRemove[i])));
 				
 			}
 
